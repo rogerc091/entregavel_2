@@ -1,8 +1,21 @@
 ////////////////////////////////////////////////////////////////////////
 ////////////////// FAÇA O SEU CÓDIGO AQUI \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ////////////////////////////////////////////////////////////////////////
+let arrayAlunos = [];
 
 class Aluno {
+  nome
+  idade
+  nota
+
+
+  constructor(nome,idade,nota){
+    this.nome = nome;
+    this.idade = idade;
+    this.nota = nota;
+  }
+
+  
   
 }
 
@@ -11,24 +24,57 @@ class Aluno {
 
 //funções projeto
 
-function CadastrarAluno() {
+function CadastrarAluno(nome,idade,nota,array) {
+  let objetoAluno = new Aluno(nome,idade,nota);
+  if(!array.some(x => x.nome == nome))
+    array.push(objetoAluno)
+  return objetoAluno  
+  
+     
+  
+  }
+ 
+
+function OrdenarPorNota(alunos) {
+  alunos.sort((a,b) => a.nota - b.nota)
+ return alunos
   
 }
 
-function OrdenarPorNota() {
- 
-}
-
-function OrdenarPorIdade() {
+function OrdenarPorIdade(alunos) {
+  alunos.sort((a,b) => b.idade - a.idade)
+  return alunos
 
 }
 
-function OrdenarPorNome() {
+function OrdenarPorNome(alunos) {
+  alunos.sort((a,b)=>{
+    const nomeA = a.nome.toUpperCase();
+    const nomeB = b.nome.toUpperCase();
+    if(nomeA < nomeB){
+      return -1;
+    }
+    if(nomeA > nomeB){
+      return 1;
+    }
+    return 0;
+  });
+  return alunos
 
 }
 
-function CalcularMedia(){
+function CalcularMedia(alunos){
 
+  if(alunos.length === 0){
+    return 0;
+  }
+  let somaNotas = 0;
+
+  alunos.forEach((aluno) =>{
+    somaNotas += Number(aluno.nota)
+  })
+  const media = somaNotas/alunos.length;
+  return media
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -39,7 +85,7 @@ function ExcluirAluno(array, nome) {
   let index
   let removido = false
   array.forEach(aluno => {
-    if (aluno.Nome == nome) {
+    if (aluno.nome == nome) {
       index = array.indexOf(aluno)
       removido = true
     }
@@ -51,7 +97,7 @@ function ExcluirAluno(array, nome) {
 function PesquisarAluno(array, nome) {
   let pesquisa = false
   array.forEach(aluno => {
-    if (aluno.Nome.includes(nome)) {
+    if (aluno.nome.includes(nome)) {
       pesquisa = true
     }
   })
@@ -82,15 +128,15 @@ const saveAluno = (nome, idade, nota, done = 0, save = 1) => {
   aluno.classList.add("aluno");
 
   const alunoNome = document.createElement("h3");
-  alunoNome.innerText = objetoAluno.Nome;
+  alunoNome.innerText = objetoAluno.nome;
   aluno.appendChild(alunoNome);
 
   const alunoIdade = document.createElement("h3");
-  alunoIdade.innerText = objetoAluno.Idade;
+  alunoIdade.innerText = objetoAluno.idade;
   aluno.appendChild(alunoIdade);
 
   const alunoNota = document.createElement("h3");
-  alunoNota.innerText = objetoAluno.Nota;
+  alunoNota.innerText = objetoAluno.nota;
   aluno.appendChild(alunoNota);
 
   const deleteBtn = document.createElement("button");
@@ -147,7 +193,7 @@ const filterAlunos = (filterValue) => {
         aluno.remove()
       })
       arrayAlunos = OrdenarPorNota(arrayAlunos)
-      arrayAlunos.forEach((aluno) => saveAluno(aluno.Nome, aluno.Idade, aluno.Nota, done = 0, save = 1))
+      arrayAlunos.forEach((aluno) => saveAluno(aluno.nome, aluno.idade, aluno.nota, done = 0, save = 1))
       break;
 
     case "idade":
@@ -155,7 +201,7 @@ const filterAlunos = (filterValue) => {
         aluno.remove()
       })
       arrayAlunos = OrdenarPorIdade(arrayAlunos)
-      arrayAlunos.forEach((aluno) => saveAluno(aluno.Nome, aluno.Idade, aluno.Nota, done = 0, save = 1))
+      arrayAlunos.forEach((aluno) => saveAluno(aluno.nome, aluno.idade, aluno.nota, done = 0, save = 1))
       break;
 
     case "nome":
@@ -163,7 +209,7 @@ const filterAlunos = (filterValue) => {
         aluno.remove()
       })
       arrayAlunos = OrdenarPorNome(arrayAlunos)
-      arrayAlunos.forEach((aluno) => saveAluno(aluno.Nome, aluno.Idade, aluno.Nota, done = 0, save = 1))
+      arrayAlunos.forEach((aluno) => saveAluno(aluno.nome, aluno.idade, aluno.nota, done = 0, save = 1))
       break;
 
     default:
